@@ -32,16 +32,16 @@ set rtp+=$GOROOT/misc/vim
 " 显示相关  
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax on
-set cul "高亮光标所在行
+"set cul "高亮光标所在行
 set cuc
 set shortmess=atI   " 启动的时候不显示那个援助乌干达儿童的提示  
 set go=             " 不要图形按钮  
 "color desert     " 设置背景主题  
-color ron     " 设置背景主题  
+color dual     " 设置背景主题  
 "color torte     " 设置背景主题  
 "set guifont=Courier_New:h10:cANSI   " 设置字体  
-"autocmd InsertLeave * se nocul  " 用浅色高亮当前行  
-autocmd InsertEnter * se cul    " 用浅色高亮当前行  
+autocmd InsertLeave * se nocul  " 用浅色高亮当前行  
+"autocmd InsertEnter * se cul    " 用浅色高亮当前行  
 set ruler           " 显示标尺  
 set showcmd         " 输入的命令显示出来，看的清楚些  
 "set whichwrap+=<,>,h,l   " 允许backspace和光标键跨越行边界(不建议)  
@@ -53,8 +53,8 @@ set laststatus=2    " 启动显示状态行(1),总是显示状态行(2)
 set nocompatible  "去掉讨厌的有关vi一致性模式，避免以前版本的一些bug和局限  
 " 显示中文帮助
 if version >= 603
-	set helplang=cn
-	set encoding=utf-8
+    set helplang=cn
+    set encoding=utf-8
 endif
 " 自动缩进
 set autoindent
@@ -70,6 +70,8 @@ set expandtab
 set smarttab
 " 显示行号
 set number
+set list  
+set listchars=tab:__,space:.,eol:↩
 " 历史记录数
 set history=1000
 "搜索逐字符高亮
@@ -113,51 +115,80 @@ nmap tt :%s/\t/    /g<CR>
 "新建.c,.h,.sh,.java文件，自动插入文件头 
 autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()" 
 ""定义函数SetTitle，自动插入文件头 
-func SetTitle() 
-	"如果文件类型为.sh文件 
-	if &filetype == 'sh' 
-		call setline(1,"\#!/bin/bash") 
-		call append(line("."), "") 
+func SetTitle()
+    let l = 0
+    "如果文件类型为.sh文件 
+    if &filetype == 'sh' 
+        call setline(1,"\#!/bin/bash") 
+        call append(line("."), "") 
     elseif &filetype == 'python'
         call setline(1,"#!/usr/bin/env python")
         call append(line("."),"# coding=utf-8")
-	    call append(line(".")+1, "") 
+        call append(line(".")+1, "") 
 
     elseif &filetype == 'ruby'
         call setline(1,"#!/usr/bin/env ruby")
         call append(line("."),"# encoding: utf-8")
-	    call append(line(".")+1, "")
+        call append(line(".")+1, "")
 
 "    elseif &filetype == 'mkd'
 "        call setline(1,"<head><meta charset=\"UTF-8\"></head>")
-	else 
-		call setline(1, "/*************************************************************************") 
-		call append(line("."), "	> File Name: ".expand("%")) 
-		call append(line(".")+1, "	> Author: ") 
-		call append(line(".")+2, "	> Mail: ") 
-		call append(line(".")+3, "	> Created Time: ".strftime("%c")) 
-		call append(line(".")+4, " ************************************************************************/") 
-		call append(line(".")+5, "")
-	endif
-	if expand("%:e") == 'cpp'
-		call append(line(".")+6, "#include<iostream>")
-		call append(line(".")+7, "using namespace std;")
-		call append(line(".")+8, "")
-	endif
-	if &filetype == 'c'
-		call append(line(".")+6, "#include<stdio.h>")
-		call append(line(".")+7, "")
-	endif
-	if expand("%:e") == 'h'
-		call append(line(".")+6, "#ifndef _".toupper(expand("%:r"))."_H")
-		call append(line(".")+7, "#define _".toupper(expand("%:r"))."_H")
-		call append(line(".")+8, "#endif")
-	endif
-	if &filetype == 'java'
-		call append(line(".")+6,"public class ".expand("%:r"))
-		call append(line(".")+7,"")
-	endif
-	"新建文件后，自动定位到文件末尾
+    else 
+        let l = l + 1 | call setline(l,'/*')  
+        let l = l + 1 | call setline(l,'               #########                       ')  
+        let l = l + 1 | call setline(l,'               #########                       ')  
+        let l = l + 1 | call setline(l,'              ############                     ')  
+        let l = l + 1 | call setline(l,'              #############                    ')  
+        let l = l + 1 | call setline(l,'             ##  ###########                   ')  
+        let l = l + 1 | call setline(l,'            ###  ###### #####                  ')  
+        let l = l + 1 | call setline(l,'            ### #######   ####                 ')  
+        let l = l + 1 | call setline(l,'           ###  ########## ####                ')  
+        let l = l + 1 | call setline(l,'          ####  ########### ####               ')  
+        let l = l + 1 | call setline(l,'        ####   ###########  #####              ')  
+        let l = l + 1 | call setline(l,'       #####   ### ########   #####            ')  
+        let l = l + 1 | call setline(l,'      #####   ###   ########   ######          ')  
+        let l = l + 1 | call setline(l,'     ######   ###  ###########   ######        ')  
+        let l = l + 1 | call setline(l,'    ######   #### ##############  ######       ')  
+        let l = l + 1 | call setline(l,'   #######  #####################  ######      ')  
+        let l = l + 1 | call setline(l,'   #######  ######################  ######     ')  
+        let l = l + 1 | call setline(l,'  #######  ###### #################  ######    ')  
+        let l = l + 1 | call setline(l,'  #######  ###### ###### #########   ######    ')  
+        let l = l + 1 | call setline(l,'  #######    ##  ######   ######     ######    ')  
+        let l = l + 1 | call setline(l,'  #######        ######    #####     #####     ')  
+        let l = l + 1 | call setline(l,'   ######        #####     #####     ####      ')  
+        let l = l + 1 | call setline(l,'    #####        ####      #####     ###       ')  
+        let l = l + 1 | call setline(l,'     #####       ###        ###      #         ')  
+        let l = l + 1 | call setline(l,'       ###       ###        ###                ')  
+        let l = l + 1 | call setline(l,'        ##       ###        ###                ')  
+        let l = l + 1 | call setline(l,'_________#_______####_______####______________ ')  
+        let l = l + 1 | call setline(l,'               我们的未来没有BUG               ')  
+        let l = l + 1 | call setline(l,'* ==============================================================================')  
+        let l = l + 1 | call setline(l,'* FileName:'.expand('%:t'))  
+        let l = l + 1 | call setline(l,'* Author  :ElPsyCongree')  
+        let l = l + 1 | call setline(l,'* Created :'.strftime('%Y-%m-%d'))  
+        let l = l + 1 | call setline(l,'* Purpose :')  
+        let l = l + 1 | call setline(l,'* ==============================================================================')  
+        let l = l + 1 | call setline(l,'*/')  
+    endif
+    if expand("%:e") == 'cpp'
+        let l = l + 1 | call setline(l,'#include<iostream>')
+        let l = l + 1 | call setline(l,'using namespace std;')
+        let l = l + 1 | call setline(l,'')
+    endif
+    if &filetype == 'c'
+        let l = l + 1 | call setline(l,'#include<stdio.h>')
+        let l = l + 1 | call setline(l,'')
+    endif
+    if expand("%:e") == 'h'
+        let l = l + 1 | call setline(l,"#ifndef _".toupper(expand("%:r"))."_H")
+        let l = l + 1 | call setline(l,"#define _".toupper(expand("%:r"))."_H")
+        let l = l + 1 | call setline(l,"#endif')
+    endif
+    if &filetype == 'java'
+        call append(line(".")+6,"public class ".expand("%:r"))
+        call append(line(".")+7,"")
+    endif
+    "新建文件后，自动定位到文件末尾
 endfunc 
 autocmd BufNewFile * normal G
 
@@ -169,21 +200,36 @@ autocmd BufNewFile * normal G
 " shift tab pages
 map <S-Left> :tabp<CR>
 map <S-Right> :tabn<CR>
-map! <C-Z> <Esc>zzi
-map! <C-O> <C-Y>,
-map <C-A> ggVG$"+y
-map <Esc><Esc> :w<CR>
+
+"撤销
+imap <c-z> <Esc>ui
+imap <c-y> <ESC><c-r>i
+nmap <c-z> ui
+nmap <c-y> <c-r>i
+
+"全选
+imap <c-a> <ESC>ggVG$
+nmap <c-a> ggVG$
+
+"保存代码
+imap <c-s> <Esc>:w!<CR>i
+nmap <c-s> :w!<CR>
+
 map <F12> gg=G
-map <C-w> <C-w>w
-imap <C-k> <C-y>,
-imap <C-t> <C-q><TAB>
-imap <C-j> <ESC>
+
+"关闭并保存
+imap <c-w> <ESC>:wq<CR>
+nmap <c-w> :wq<CR>
+
+"关闭当前文件
+imap <c-q> <ESC>:q<CR>
+nmap <c-q> :q<CR>
+
 " 选中状态下 Ctrl+c 复制
-"map <C-v> "*pa
-imap <C-v> <Esc>"*pa
-imap <C-a> <Esc>^
-imap <C-e> <Esc>$
-vmap <C-c> "+y
+map <c-v> <ESC>"*pa
+map! <c-v> <ESC>"*pa
+vmap <c-c> "+y
+
 set mouse=v
 "set clipboard=unnamed
 "去空行  
@@ -196,25 +242,27 @@ nnoremap <C-F2> :vert diffsplit
 map <F3> :NERDTreeToggle<CR>
 imap <F3> <ESC> :NERDTreeToggle<CR>
 "打开树状文件目录  
-map <C-F3> \be  
+map <c-F3> \be  
 :autocmd BufRead,BufNewFile *.dot map <F5> :w<CR>:!dot -Tjpg -o %<.jpg % && eog %<.jpg  <CR><CR> && exec "redr!"
 "C，C++ 按F5编译运行
-map <F5> :call CompileRunGcc()<CR>
+nmap <F5> :call CompileRunGcc()<CR>
+imap <F5> <ESC>:call CompileRunGcc()<CR>
+
 func! CompileRunGcc()
-	exec "w"
-	if &filetype == 'c'
-		exec "!g++ % -o %<"
-		exec "!time ./%<"
-	elseif &filetype == 'cpp'
-		exec "!g++ % -std=c++11 -o %<"
-		exec "!time ./%<"
-	elseif &filetype == 'java' 
-		exec "!javac %" 
-		exec "!time java %<"
-	elseif &filetype == 'sh'
-		:!time bash %
-	elseif &filetype == 'python'
-		exec "!time python2.7 %"
+    exec "w"
+    if &filetype == 'c'
+        exec "!gcc % -o %<"
+        exec "!time ./%<"
+    elseif &filetype == 'cpp'
+        exec "!g++ % -std=c++11 -o %<"
+        exec "!time ./%<"
+    elseif &filetype == 'java' 
+        exec "!javac %" 
+        exec "!time java %<"
+    elseif &filetype == 'sh'
+        :!time bash %
+    elseif &filetype == 'python'
+        exec "!time python2.7 %"
     elseif &filetype == 'html'
         exec "!firefox % &"
     elseif &filetype == 'go'
@@ -329,7 +377,7 @@ set report=0
 " 在被分割的窗口间显示空白，便于阅读
 set fillchars=vert:\ ,stl:\ ,stlnc:\
 " 高亮显示匹配的括号
-set showmatch
+"set showmatch
 " 匹配括号高亮的时间（单位是十分之一秒）
 set matchtime=1
 " 光标移动到buffer的顶部和底部时保持3行距离
