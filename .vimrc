@@ -37,7 +37,7 @@ set cuc
 set shortmess=atI   " 启动的时候不显示那个援助乌干达儿童的提示  
 set go=             " 不要图形按钮  
 "color desert     " 设置背景主题  
-color dual     " 设置背景主题  
+color molokai     " 设置背景主题  
 "color torte     " 设置背景主题  
 "set guifont=Courier_New:h10:cANSI   " 设置字体  
 autocmd InsertLeave * se nocul  " 用浅色高亮当前行  
@@ -71,7 +71,7 @@ set smarttab
 " 显示行号
 set number
 set list  
-set listchars=tab:__,space:.,eol:↩
+set listchars=tab:__,space:·,eol:↩
 " 历史记录数
 set history=1000
 "搜索逐字符高亮
@@ -217,9 +217,10 @@ nmap <c-s> :w!<CR>
 
 map <F12> gg=G
 
+map <C-w> <C-w>w
 "关闭并保存
-imap <c-w> <ESC>:wq<CR>
-nmap <c-w> :wq<CR>
+imap <s-w> <ESC>:wq<CR>
+nmap <s-w> :wq<CR>
 
 "关闭当前文件
 imap <c-q> <ESC>:q<CR>
@@ -338,7 +339,7 @@ set completeopt=preview,menu
 "set clipboard+=unnamed 
 "自动保存
 set autowrite
-"set ruler                   " 打开状态栏标尺
+set ruler                   " 打开状态栏标尺
 "set cursorline              " 突出显示当前行
 set magic                   " 设置魔术
 set guioptions-=T           " 隐藏工具栏
